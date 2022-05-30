@@ -5,7 +5,7 @@ library(COVID19)
 library(ggplot2)
 
 s_date <- "2020-01-01"
-e_date <- "2021-08-31"
+e_date <- "2022-03-31"
 N_DAYS <- as.numeric((as.Date(e_date) - as.Date(s_date)) + 1)
 
 countries <- read.csv("data_completion/coord_africa.csv",header = T, sep = ",", dec = ".")
@@ -13,9 +13,10 @@ rownames(countries) <- countries$Code_ISO
 
 df.out <- data.frame(matrix(nrow=0, ncol=2))
 for (iso_code in rownames(countries)) {
+  #iso_code <- "DZA"
   print(iso_code)
   data <- data.frame(covid19(country = iso_code, level = 1, 
-                  start = s_date, end = e_date))
+                  start = s_date, end = e_date, verbose = F))
   conf.index <- as.numeric(which(data$confirmed>0)[1])
   first.conf.date <- as.numeric(data$date[conf.index] - as.Date(s_date))+1
   
@@ -36,7 +37,7 @@ origin.labels <- as.factor(c(rep("1st Confirmed case",  length(rownames(countrie
 df.out <- data.frame(labels, lats, df.out$values, origin.labels)
 colnames(df.out) <- c("Iso_Code","Latitude","Value","Origin")
 df.out <- df.out[order(df.out$Latitude, decreasing = T),]
-df.out$dates <- as.Date(as.numeric(as.Date(s_date)) + df.out$Value)
+df.out$dates <- as.Date(df.out$Value, origin=as.Date(s_date))
 
 dev.off()
 ggplot(df.out,aes(x= dates, y = reorder(Iso_Code, Latitude))) +

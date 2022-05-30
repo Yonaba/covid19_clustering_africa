@@ -7,7 +7,7 @@ library(ggsignif)
 library(COVID19)
 
 s_date <- "2020-01-01"
-e_date <- "2021-08-31"
+e_date <- "2022-03-31"
 
 # Performs ANOVA + Post-hoc Tukey's HSD test
 kruskal.wilcoxon <- function(df, var) {
@@ -32,7 +32,7 @@ data$mort <- (df$death_pm / pop_tot) * 1e6
 # for (iso_code in df$Code_ISO) {
 #   print(iso_code)
 #   
-#   #récupérer les données concernant les cas cumulés
+#   #r?cup?rer les donn?es concernant les cas cumul?s
 #   covdata <- covid19(country = iso_code, level = 1, 
 #                   start = s_date, end = e_date)
 #   
@@ -71,7 +71,7 @@ ggplot(data.stack, aes(x = ind, y = values, fill = clusters)) +
         legend.key.size = unit(1.75, "cm"),
         strip.text.x = element_text(size = 12))
 
-ggsave(filename = "pub/prevalence_by_cluster.png", dpi = 500, scale = 1.75)
+#ggsave(filename = "pub/prevalence_by_cluster.png", dpi = 500, scale = 1.75)
 
 kruskal.wilcoxon(data.stack, "conf_pm")
 kruskal.wilcoxon(data.stack, "death_pm")

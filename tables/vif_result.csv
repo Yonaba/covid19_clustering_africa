@@ -1,0 +1,16 @@
+Nø,Variable,conf_pm,death_pm,Nø,Variable,conf_pm,death_pm
+1,alcohol_cons,3.11,3.11,16,prev_ch.resp,9.52,9.52
+2,dens_pop,3.36,3.36,17,insol_avg,10.57,10.57
+3,urb_pop,3.59,3.59,18,life_exp,11.48,11.48
+4,pm25,3.66,3.66,19,p65yrs,14.63,14.63
+5,gini,4.99,4.99,20,hous_fossf,17.20,17.20
+6,arriv,6.10,6.10,21,hdi,18.74,18.74
+7,med_1000,7.48,7.48,22,gdp_cap,32.48,32.48
+8,prev_malaria,7.51,7.51,23,health_exp,32.54,32.54
+9,ws2m_avg,7.75,7.75,24,median_age,35.61,35.61
+10,epi,7.83,7.83,25,rh2m_avg,140.79,140.79
+11,alphab,7.96,7.96,26,ah_avg,180.74,180.74
+12,immuniz_bcg,8.46,8.46,27,tmax_avg,258.91,258.91
+13,lack_hygien,8.82,8.82,28,tmin_avg,575.63,575.63
+14,immuniz_dtp1,8.92,8.92,29,tmoy_avg,1349.89,1349.89
+15,lat_abs,9.08,9.08,,,,

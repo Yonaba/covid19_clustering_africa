@@ -5,19 +5,20 @@ library(nasapower)
 library(zoo)
 
 cli_params <- c("WS2M", "RH2M", "T2MDEW","T2M_MAX",
-                 "T2M_MIN","ALLSKY_SFC_SW_DWN","T2M","PS","WS10M")
+                 "T2M_MIN", "T2M","ALLSKY_SFC_SW_DWN")
 
 start_date <- "2020-01-01"
-end_date <- "2021-08-31"
+end_date <- "2022-03-31"
 SLEEP_TIME_BETWEEN_REQUESTS <- 10
 
 countries <- read.csv("data_completion/coord_africa.csv",header = T, sep = ",", dec = ".")
 
 df.out <- data.frame(matrix(nrow = 0, ncol = length(cli_params)+1))
-df.names <- c("ws2m", "rh2m", "tdew", "tmax", "tmin", "insol", "tmoy","ps","ws10m", "ah")
+df.names <- c("ws2m", "rh2m", "tdew", "tmax", "tmin", "tmoy", "insol", "ah")
 
 for (i in 1:length(countries$Code_ISO)) {
   #i <- "5"
+  #i <- 5
   country <- countries[i,"Code_ISO"]
   print(paste("Processing:", country))
   cli_df <- get_power(
@@ -26,7 +27,7 @@ for (i in 1:length(countries$Code_ISO)) {
     pars = cli_params,
     dates = c(start_date, end_date),
     temporal_api = "daily")
-  df <- data.frame(cli_df[,7:16])
+  df <- data.frame(cli_df[,7:ncol(cli_df)])
   colnames(df)[1] <- "Date"
   
   for (col in colnames(df)) {

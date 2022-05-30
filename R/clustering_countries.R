@@ -5,7 +5,7 @@ library(FactoMineR)
 library(factoextra)
 library(clValid)
 library(NbClust)
-library(clustertend)
+library(hopkins)
 library(scales)
 library(ggdendro)
 
@@ -20,12 +20,13 @@ rescale.df <- function(df, minv, maxv) {
   return (df.out)
 }
 
-df <- read.csv("data_completion/3_data_final.csv", header = T, sep = ",", dec = ".")
+best_var <- read.csv("pub/sbf_result.csv", header = T, sep = ",", dec = ".")$Variable
+df <- read.csv("data_completion/4_data_final.csv", header = T, sep = ",", dec = ".")
 rownames(df) <- df$X
 df$X <- NULL
 
-data <- subset(df, select = c(lack_hygien, alphab, med_1000, epi, life_exp, pm25,
-                              urb_pop, lat_abs, arriv, gini))
+data <- df[,(colnames(df) %in% best_var)]
+
 orig.data <- data               
 data <- rescale.df(data, 0, 1)
 
@@ -46,7 +47,7 @@ distance <- "canberra"
 # res.pca$eig #Visualize Eigenvalues to select number of PCs
 
 # If > 0.5, data should not be clustered
-hopkins(data, n = 53)
+hopkins(data)
 
 # # Clustering
 # # Elbow method

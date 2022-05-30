@@ -7,11 +7,11 @@ library(xts)
 library(ggplot2)
 library(viridis)
 
-cumulative <- T
-var_type <- "deaths" # or "confirmed"
+cumulative <- F
+var_type <- "confirmed" # or "confirmed"
 
 s_date <- "2020-01-01"
-e_date <- "2021-08-31"
+e_date <- "2022-03-31"
 N_DAYS <- as.numeric((as.Date(e_date) - as.Date(s_date)) + 1)
 
 df <- read.csv("data_completion/coord_africa.csv", header = T, sep = ",", dec = ".")
@@ -30,7 +30,7 @@ for (iso_code in countries) {
   print(iso_code)
   region <- df[iso_code,"Regions"]
   data <- covid19(country = iso_code, level = 1, 
-                  start = s_date, end = e_date)
+                  start = s_date, end = e_date, verbose = F)
   
   start_index <- which.min(is.na(data[[var_type]]))
   start_date <- data$date[start_index]
@@ -64,10 +64,11 @@ if (!cumulative) {
     xlab("") + ylab(ifelse(var_type == "confirmed", 
                            "Daily confirmed cases", 
                            "Daily deaths")) + 
+    ylim(0,ifelse(var_type == "confirmed",25000,600)) +
     labs(title = ifelse(var_type == "confirmed", 
                         "Daily new cases per region in Africa",
                         "Daily deaths per region in Africa"),
-         subtitle = "Period : January 1, 2020 to August 31, 2021",
+         subtitle = "Period : January 1, 2020 to March 31, 2022",
          caption = "Source : JHU/CSSE")
   fname <- ifelse(var_type == "confirmed",
                   "pub/new_cases_by_regions.png",
@@ -81,7 +82,7 @@ if (!cumulative) {
     labs(title = ifelse(var_type == "confirmed",
                         "Cumulative confirmed cases per region in Africa",
                         "Cumulative deaths per region in Africa"),
-         subtitle = "Period : January 1, 2020 to August 31, 2021",
+         subtitle = "Period : January 1, 2020 to March 31, 2022",
          caption = "Source : JHU/CSSE")
   fname <- ifelse(var_type == "confirmed",
                   "pub/cum_cases_by_regions.png",

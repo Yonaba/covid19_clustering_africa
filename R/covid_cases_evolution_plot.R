@@ -9,7 +9,7 @@ library(gridExtra)
 library(hrbrthemes)
 
 s_date <- c("2020-01-01")
-e_date <- c("2021-08-31")
+e_date <- c("2022-03-31")
 N_DAYS <- as.numeric((as.Date(e_date) - as.Date(s_date)) + 1)
 
 countries <- read.csv("data_completion/coord_africa.csv", header = T, sep = ",", dec = ".")$Code_ISO
@@ -20,7 +20,7 @@ for (iso_code in countries) {
   print(iso_code)
 
   covid.data <- covid19(country = iso_code, level = 1, 
-                        start = s_date, end = e_date)
+                        start = s_date, end = e_date, verbose = F)
   
   sindex_cc <- which.min(is.na(covid.data$confirmed))
   sindex_dd <- which.min(is.na(covid.data$deaths))
@@ -55,12 +55,15 @@ p1 <- ggplot() +
     sec.axis = sec_axis(~.*coef, name="Cumulative deaths")
   ) + theme_ipsum() +
   theme(
-    axis.title.y = element_text(color = "blue", size = 12),
-    axis.title.y.right = element_text(color = "red", size = 12)
+    axis.title.y = element_text(color = "blue", size = 18),
+    axis.title.y.right = element_text(color = "red", size = 18)
   ) +
   labs(title = "a) Cumulative confirmed cases and deaths in Africa",
-     subtitle = "Period : January 1, 2020 to August 31, 2021",
+     subtitle = "Period : January 1, 2020 to March 31, 2022",
      caption = "Source: JHU/CSSE") +
+  theme(plot.title = element_text(size=22),
+        plot.subtitle = element_text(size=18),
+        plot.caption = element_text(size=12)) +
   theme(legend.position = "none")
 
 df.out$new_cases <- append(df.out$cases[1], diff(df.out$cases))
@@ -78,14 +81,17 @@ p2 <- ggplot() +
     sec.axis = sec_axis(~.*coef, name="Daily deaths")
   ) + theme_ipsum() +
   theme(
-    axis.title.y = element_text(color = "blue", size = 12),
-    axis.title.y.right = element_text(color = "red", size = 12)
+    axis.title.y = element_text(color = "blue", size = 18),
+    axis.title.y.right = element_text(color = "red", size = 18)
   ) +
   labs(title = "b) Daily confirmed cases and deaths in Africa",
-       subtitle = "Period : January 1, 2020 to August 31, 2021",
+       subtitle = "Period : January 1, 2020 to March 31, 2022",
        caption = "Source: JHU/CSSE") +
+  theme(plot.title = element_text(size=22),
+        plot.subtitle = element_text(size=18),
+        plot.caption = element_text(size=12)) +
   theme(legend.position = "none")
 
 grob <- grid.arrange(p1, p2, nrow = 1)
 ggsave(filename = "pub/covid_cases_africa.png", grob, dpi = 500, scale = 3, 
-       width = 20, height = 8, unit = "cm")
+       width = 25, height = 8, unit = "cm")

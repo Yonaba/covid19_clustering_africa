@@ -19,8 +19,8 @@ clusters <- df$clusters
 data <- colnames(subset(df, select = -c(Code_ISO, clusters, conf_pm,death_pm)))
 cluster.vars <- data
 
-data.df <- read.csv("data_completion/3_data_final.csv", header = T, sep = ",", dec = ".")
-data <- data.df[, data]
+#data.df <- read.csv("data_completion/4_data_final.csv", header = T, sep = ",", dec = ".")
+data <- df[, data]
 
 clusters <- rep(clusters, ncol(data))
 data.stack <- stack(data)
@@ -38,7 +38,7 @@ ggplot(data.stack, aes(x = ind, y = values, fill = clusters)) +
         strip.text.x = element_text(size = 12))
 
 ggsave(filename = "pub/cluster_by_variable.png", dpi = 500, scale = 1.75, 
-       width = 15, height = 15, unit = "cm")
+       width = 20, height = 15, unit = "cm")
 
 for (param in cluster.vars) {
   print(paste(param))

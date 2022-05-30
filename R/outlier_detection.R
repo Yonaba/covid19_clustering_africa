@@ -44,6 +44,7 @@ dev.off()
 
 filtered <- cooksd_conf
 out.cook <- names(filtered)[(filtered > 4*mean(filtered, na.rm=T))]
+out.cook <- as.character(c("CPV", "MUS", "SYC"))
 df.out.cook <- data.frame(df[out.cook,])
 
 df.n <- colMeans(df[!(rownames(df) %in% out.cook),])
@@ -55,7 +56,7 @@ rownames(df.out.cook)[length(out.cook) + 1] <- "Min"
 rownames(df.out.cook)[length(out.cook) + 2] <- "Average"
 rownames(df.out.cook)[length(out.cook) + 3] <- "Max"
 View(df.out.cook)
-
+write.csv(df.out.cook, file = "pub/df.out.cook.csv", row.names = T)
 # Other Influence measures
 # https://cran.r-project.org/web/packages/olsrr/vignettes/influence_measures.html
 # library(olsrr)
